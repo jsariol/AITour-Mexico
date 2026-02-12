@@ -1,11 +1,11 @@
 # FastAPI Azure OpenAI Chat
 
-A full-stack FastAPI app with a `/chat` API that calls Azure OpenAI, plus a Next.js frontend.
+A full-stack FastAPI app with a `/chat` API that calls Azure OpenAI, plus a PHP frontend.
 
 ## Requirements
 
 - Python 3.11+
-- Node.js 18+
+- PHP 8.2+
 
 ## Backend Setup
 
@@ -27,24 +27,16 @@ uvicorn app.main:app --reload
 
 API runs at `http://localhost:8000`.
 
-## Frontend Setup (Next.js)
+## Frontend Setup (PHP)
 
-1. Install dependencies:
+1. Start a local PHP server:
 
 ```bash
 cd frontend
-npm install
+php -S localhost:8080
 ```
 
-2. Copy `frontend/.env.example` to `frontend/.env.local` and update the API base if needed.
-
-3. Run the frontend:
-
-```bash
-npm run dev
-```
-
-Open `http://localhost:3000`.
+Open `http://localhost:8080`.
 
 ## Environment Variables
 
@@ -56,7 +48,7 @@ Open `http://localhost:3000`.
 - `AZURE_OPENAI_TEMPERATURE`
 - `AZURE_OPENAI_MAX_TOKENS`
 - `ALLOWED_ORIGINS`
-- `NEXT_PUBLIC_API_BASE`
+- `API_BASE_URL`
 
 ## Tests
 
@@ -69,17 +61,18 @@ pytest
 - Install the GitHub Copilot and GitHub Copilot Chat extensions.
 - In the Copilot Chat model picker, select `GPT-5.1-Codex` for this workspace.
 
-## Deployment (Azure App Service + Static Web Apps)
+## Deployment (Azure App Service)
 
 Backend: the workflow in .github/workflows/deploy.yml deploys the API on pushes to `main`.
 
-Frontend: the workflow in .github/workflows/deploy-frontend.yml deploys the Next.js static export to Azure Static Web Apps.
+Frontend: the workflow in .github/workflows/deploy-php-frontend.yml deploys the PHP frontend to a separate App Service.
 
 Add the following GitHub Actions secrets:
 
 - `AZURE_WEBAPP_NAME`
 - `AZURE_WEBAPP_PUBLISH_PROFILE`
-- `AZURE_STATIC_WEB_APPS_API_TOKEN`
+- `AZURE_PHP_WEBAPP_NAME`
+- `AZURE_PHP_WEBAPP_PUBLISH_PROFILE`
 
 Set these application settings in Azure App Service:
 
@@ -91,9 +84,7 @@ Set these application settings in Azure App Service:
 - `AZURE_OPENAI_TEMPERATURE`
 - `AZURE_OPENAI_MAX_TOKENS`
 - `ALLOWED_ORIGINS`
-- `NEXT_PUBLIC_API_BASE`
-
-Set `NEXT_PUBLIC_API_BASE` as a build environment variable in Azure Static Web Apps to point to the App Service URL.
+- `API_BASE_URL`
 
 Recommended startup command:
 

@@ -18,7 +18,7 @@ def get_chat_client(settings: Settings = Depends(get_settings)) -> AzureOpenAICh
     return AzureOpenAIChatClient(settings)
 
 
-allowed_origins = os.getenv("ALLOWED_ORIGINS", "http://localhost:3000")
+allowed_origins = os.getenv("ALLOWED_ORIGINS", "http://localhost:8080")
 app.add_middleware(
     CORSMiddleware,
     allow_origins=[origin.strip() for origin in allowed_origins.split(",") if origin.strip()],
